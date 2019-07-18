@@ -18,15 +18,21 @@ public class BaseEntity {
     private Long creatorId;
 
     /**
+     * 创建时间
+     */
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime createTime;
+
+    /**
      * 更新管理员 id
      */
     private Long updaterId;
 
     /**
-     * 创建时间
+     * 更新时间
      */
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private LocalDateTime createTime;
+    private LocalDateTime updateTime;
 
     /**
      * 逻辑删除
