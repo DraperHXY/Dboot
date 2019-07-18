@@ -5,7 +5,6 @@ import com.draper.dboot.system.entity.beans.SysUser;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -36,4 +35,5 @@ public class SysUserServiceTest extends BaseTest {
         SysUser sysUser = userService.getUser("admin");
         System.out.println(sysUser.getLastLoginTime());
     }
+
 }

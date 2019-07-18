@@ -31,6 +31,11 @@ public class SysRoleServiceImpl implements SysRoleService {
         return sysRoleMapper.selectList(new QueryWrapper<>());
     }
 
+    @Override
+    public SysRole one(int roleId) {
+        return sysRoleMapper.selectById(roleId);
+    }
+
     private void init(SysRole sysRole) {
         if (sysRole.getCreatorId() == null) {
             sysRole.setCreatorId(1L);

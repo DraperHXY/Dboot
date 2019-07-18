@@ -12,4 +12,6 @@ public interface SysRoleService {
     Integer add(SysRole sysRole);
 
     List<SysRole> listAll();
+
+    SysRole one(int roleId);
 }
