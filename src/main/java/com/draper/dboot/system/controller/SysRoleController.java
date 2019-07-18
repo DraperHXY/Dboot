@@ -20,7 +20,7 @@ public class SysRoleController {
     private SysRoleService sysRoleService;
 
     @RequiresRoles("超级管理员")
-    @GetMapping("/api/role")
+    @GetMapping("/api/role/")
     public R listAll() {
         List<SysRole> roleList = sysRoleService.listAll();
         return R.ok(roleList);

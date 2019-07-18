@@ -2,7 +2,6 @@ package com.draper.dboot.system.controller;
 
 import com.draper.dboot.common.annotation.SysLog;
 import com.draper.dboot.common.utils.R;
-import com.draper.dboot.system.entity.beans.SysUser;
 import com.draper.dboot.system.entity.dto.LoginDto;
 import com.draper.dboot.system.service.SysUserService;
 import org.apache.shiro.SecurityUtils;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 /**
- * 系统登录，注册的 controller
+ * 系统登录
  *
  * @author draper_hxy
  */
@@ -34,12 +33,10 @@ public class SysLoginController {
         UsernamePasswordToken authToken = new UsernamePasswordToken();
         authToken.setUsername(loginDto.getUsername());
         authToken.setPassword(loginDto.getPassword().toCharArray());
+        SecurityUtils.getSubject().login(authToken);
 
         // 2.刷新登录时间
-        SecurityUtils.getSubject().login(authToken);
         sysUserService.refreshLastLogin(loginDto.getUsername());
         return R.ok();
     }
-
-
 }
