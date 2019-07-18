@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.draper.dboot.common.entity.BaseEntity;
 import com.draper.dboot.system.dao.SysUserMapper;
 import com.draper.dboot.system.entity.beans.SysUser;
 import com.draper.dboot.system.service.SysUserService;
@@ -28,7 +30,7 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public SysUser getUser(String username) {
+    public SysUser one(String username) {
         LambdaQueryWrapper<SysUser> queryWrapper = new QueryWrapper<SysUser>().lambda();
         return sysUserMapper.selectOne(queryWrapper.eq(SysUser::getUsername, username));
     }
@@ -39,6 +41,40 @@ public class SysUserServiceImpl implements SysUserService {
         lambdaUpdateWrapper.eq(SysUser::getUsername, username)
                 .set(SysUser::getLastLoginTime, LocalDateTime.now());
         sysUserMapper.update(null, lambdaUpdateWrapper);
+    }
+
+
+    @Override
+    public Page<SysUser> page(long pageNo, long pageSize) {
+        Page<SysUser> page = new Page<>(pageNo, pageSize);
+        sysUserMapper.selectPage(page,
+                new QueryWrapper<SysUser>()
+                        .lambda()
+                        .eq(BaseEntity::getIsDelete, 0));
+        return page;
+    }
+
+    @Override
+    public SysUser one(Long id) {
+        return sysUserMapper.selectOne(
+                new QueryWrapper<SysUser>()
+                        .lambda()
+                        .eq(SysUser::getId, id)
+                        .eq(BaseEntity::getIsDelete, 0
+                        ));
+    }
+
+    @Override
+    public long delete(Long id) {
+        refreshUpdate(id);
+        return sysUserMapper.deleteById(id);
+    }
+
+    private void refreshUpdate(Long userId) {
+        SysUser sysUser = new SysUser();
+        sysUser.setId(userId);
+        sysUser.setUpdateTime(LocalDateTime.now());
+        sysUserMapper.updateById(sysUser);
     }
 
     private void init(SysUser sysUser) {

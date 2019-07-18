@@ -24,6 +24,8 @@ public interface SysRoleService {
 
     SysRole one(long roleId);
 
+    SysRole one(String name);
+
     long delete(long id);
 
     SysRole update(long id, SysRole sysRole);

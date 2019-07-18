@@ -22,8 +22,7 @@ public class ShiroUtil {
         }
 
         if (principal instanceof String) {
-            return ((SysUserService) SpringContextUtils.getBean("sysUserServiceImpl")).getUser(principal.toString()).getId();
-
+            return ((SysUserService) SpringContextUtils.getBean("sysUserServiceImpl")).one(principal.toString()).getId();
         }
         return 0L;
     }

@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.draper.dboot.common.entity.BaseEntity;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+
 /**
  * @author draper_hxy
  */
@@ -14,5 +16,6 @@ public class SysRole extends BaseEntity {
     @TableId(type = IdType.AUTO)
     private Long id;
 
+    @NotBlank
     private String name;
 }

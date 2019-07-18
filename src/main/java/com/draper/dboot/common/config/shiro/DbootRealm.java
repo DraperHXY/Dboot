@@ -2,7 +2,6 @@ package com.draper.dboot.common.config.shiro;
 
 import com.draper.dboot.system.entity.beans.SysRole;
 import com.draper.dboot.system.entity.beans.SysUser;
-import com.draper.dboot.system.entity.beans.SysUserRole;
 import com.draper.dboot.system.service.SysUserRoleService;
 import com.draper.dboot.system.service.SysUserService;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +40,7 @@ public class DbootRealm extends AuthorizingRealm {
         }
 
         SysUser sysUser = (SysUser) principals.getPrimaryPrincipal();
-        sysUserService.getUser(sysUser.getUsername());
+        sysUserService.one(sysUser.getUsername());
 
         // 1. 获取角色
         List<SysRole> sysRoleList = sysUserRoleService.list(sysUser.getId());
@@ -58,7 +57,7 @@ public class DbootRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         // 1. 查询用户是否存在
         String username = token.getPrincipal().toString();
-        SysUser sysUser = sysUserService.getUser(username);
+        SysUser sysUser = sysUserService.one(username);
         if (sysUser == null) {
             throw new UnknownAccountException("账号不存在");
         }

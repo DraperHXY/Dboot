@@ -48,6 +48,14 @@ public class SysRoleServiceImpl implements SysRoleService {
     }
 
     @Override
+    public SysRole one(String name) {
+        return sysRoleMapper.selectOne(new QueryWrapper<SysRole>()
+                .lambda()
+                .eq(SysRole::getName, name)
+                .eq(BaseEntity::getIsDelete, 0));
+    }
+
+    @Override
     public long delete(long id) {
         // 1. 更新刷新时间
         update(id, new SysRole());

@@ -5,6 +5,7 @@ import com.draper.dboot.system.entity.beans.SysUser;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 /**
  * @author draper_hxy
  */
-//@Transactional
+@Transactional
 public class SysUserServiceTest extends BaseTest {
 
     @Autowired
@@ -32,7 +33,7 @@ public class SysUserServiceTest extends BaseTest {
 
     @Test
     void testGet() {
-        SysUser sysUser = userService.getUser("admin");
+        SysUser sysUser = userService.one("admin");
         System.out.println(sysUser.getLastLoginTime());
     }
 

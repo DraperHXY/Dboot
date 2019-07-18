@@ -10,6 +10,8 @@ import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 
 /**
  * @author draper_hxy
@@ -38,7 +40,7 @@ public class SysRoleController {
      */
     @SysLog(operation = "[role] 添加 role")
     @PostMapping("/api/role/")
-    public R add(@RequestBody SysRole sysRole) {
+    public R add(@Valid @RequestBody SysRole sysRole) {
         Long result = sysRoleService.add(sysRole);
         return R.ok(result);
     }
