@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.draper.dboot.system.dao.SysUserRoleMapper">
+
+    <select id="list" resultType="com.draper.dboot.system.entity.beans.SysRole">
+        SELECT sr.*
+        FROM sys_user_role sur
+        LEFT JOIN sys_role  sr ON sur.role_id = sr.id
+        WHERE sur.user_id = #{userId}
+        AND sur.is_delete = 0
+        AND sr.is_delete = 0
+    </select>
+</mapper>
