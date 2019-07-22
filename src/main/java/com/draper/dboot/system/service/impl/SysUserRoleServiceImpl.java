@@ -62,7 +62,12 @@ public class SysUserRoleServiceImpl implements SysUserRoleService {
 
     @Override
     public List<SysRole> list(long userId) {
-        return sysUserRoleMapper.list(userId);
+        return sysUserRoleMapper.listByUserId(userId);
+    }
+
+    @Override
+    public List<SysRole> list(String username) {
+        return sysUserRoleMapper.listByUsername(username);
     }
 
     @Override
@@ -81,7 +86,7 @@ public class SysUserRoleServiceImpl implements SysUserRoleService {
         userRolesVo.setUsername(username);
 
         // 3. roleNameList
-        List<SysRole> roleList = sysUserRoleMapper.list(userId);
+        List<SysRole> roleList = sysUserRoleMapper.listByUserId(userId);
         List<String> roleNameList = new ArrayList<>();
         roleList.forEach(role -> roleNameList.add(role.getName()));
         userRolesVo.setRoleList(roleNameList);

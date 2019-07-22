@@ -14,6 +14,8 @@ public interface SysUserRoleService {
 
     List<SysRole> list(long userId);
 
+    List<SysRole> list(String username);
+
     UserRolesVo one(Long userId, Long pageNo, Long pageSize);
 
     int delete(String username, String roleName);

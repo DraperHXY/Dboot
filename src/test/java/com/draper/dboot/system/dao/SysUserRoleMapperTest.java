@@ -26,7 +26,7 @@ public class SysUserRoleMapperTest {
 
     @Test
     void testRoleList() {
-        List<SysRole> sysRoleList = sysUserRoleMapper.list(1L);
+        List<SysRole> sysRoleList = sysUserRoleMapper.listByUserId(1L);
         sysRoleList.forEach(System.out::println);
     }
 

@@ -62,6 +62,7 @@ public class SysUserRoleController {
         return R.ok(userRolesVoPage);
     }
 
+    @SysLog(operation = "[user role] 取消关联")
     @PutMapping("/api/user/role/")
     public R unCorrelate(@Valid @RequestBody UserRoleDto userRoleDto) {
         String username = userRoleDto.getUsername();
