@@ -62,7 +62,6 @@ public class SysLoginController {
                 .put("roles", roleStrList)
                 .put("username", loginDto.getUsername());
 
-        // TODO: 2019-07-20 登录成功返回 username roles
         return R.ok(map);
     }
 

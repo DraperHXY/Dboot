@@ -10,7 +10,8 @@ import java.time.LocalDateTime;
  * @author draper_hxy
  */
 @Data
-public class BaseEntity {
+public class
+BaseEntity {
 
     /**
      * 创建管理员 id

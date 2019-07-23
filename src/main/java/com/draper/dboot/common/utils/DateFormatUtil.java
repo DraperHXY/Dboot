@@ -47,7 +47,7 @@ public class DateFormatUtil {
                 .atStartOfDay(ZoneId.systemDefault()).toInstant());
     }
 
-    private static String format(TemporalAccessor temporal, String pattern) {
+    public static String format(TemporalAccessor temporal, String pattern) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
         return formatter.format(temporal);
     }
