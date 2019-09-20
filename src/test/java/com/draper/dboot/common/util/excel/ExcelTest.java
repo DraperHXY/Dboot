@@ -4,6 +4,7 @@ import com.alibaba.excel.event.AnalysisEventListener;
 import com.draper.dboot.common.utils.excel.ExcelExecuteStrategy;
 import com.draper.dboot.common.utils.excel.ExcelUtilSubject;
 import com.draper.dboot.common.utils.excel.MyAbstractExcelDetailEventExecutor;
+import com.draper.dboot.common.utils.excel.MyAbstractExcelSimpleEventExecutor;
 import com.draper.dboot.system.entity.beans.Document;
 import org.junit.jupiter.api.Test;
 
@@ -23,7 +24,7 @@ public class ExcelTest {
         }
 
         FileInputStream fileInputStream = new FileInputStream(file);
-        AnalysisEventListener<Document> listener = new MyAbstractExcelDetailEventExecutor(ExcelExecuteStrategy.CONTINUE);
+        AnalysisEventListener<Document> listener = new MyAbstractExcelSimpleEventExecutor(ExcelExecuteStrategy.CONTINUE);
 
         new ExcelUtilSubject<Document>().upload(fileInputStream, Document.class, listener);
     }
