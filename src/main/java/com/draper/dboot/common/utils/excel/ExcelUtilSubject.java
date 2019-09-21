@@ -15,7 +15,7 @@ import java.io.InputStream;
 @Slf4j
 public class ExcelUtilSubject<T extends BaseRowModel> {
 
-    public void upload(InputStream inputStream, Class<T> clazz, AnalysisEventListener<T> listener) throws Exception {
+    public void parse(InputStream inputStream, Class<T> clazz, AnalysisEventListener<T> listener) throws Exception {
         try {
             EasyExcelFactory.readBySax(inputStream, new Sheet(1, 0, clazz), listener);
         } catch (Exception e) {

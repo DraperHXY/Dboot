@@ -45,4 +45,14 @@ public class MyAbstractExcelDetailEventExecutor extends AbstractExcelDetailEvent
         System.out.println("异常数据");
         getExceptionDataList().forEach(System.out::println);
     }
+
+    @Override
+    protected void onErrorData(Document data, AnalysisContext context) {
+        super.onErrorData(data, context);
+    }
+
+    @Override
+    protected void onFailed(Document data, AnalysisContext context, Throwable throwable) {
+        super.onFailed(data, context, throwable);
+    }
 }

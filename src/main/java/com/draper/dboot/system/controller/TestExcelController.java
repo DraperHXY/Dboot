@@ -15,7 +15,7 @@ public class TestExcelController {
 //        ExcelUtilSubject.AbstractExcelEventExecutor listener = new AbstractExcelSimpleEventExecutor(ExcelUtilSubject.ExcelExecuteStrategy.ABORT);
 //
 //        try {
-//            excelUtil.upload(file.getInputStream(), Document.class);
+//            excelUtil.parse(file.getInputStream(), Document.class);
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }

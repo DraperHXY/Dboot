@@ -48,4 +48,8 @@ public class SpringContextUtils implements ApplicationContextAware {
         return applicationContext.getType(name);
     }
 
+    public static String[] getAllBeans(){
+        return applicationContext.getBeanDefinitionNames();
+    }
+
 }

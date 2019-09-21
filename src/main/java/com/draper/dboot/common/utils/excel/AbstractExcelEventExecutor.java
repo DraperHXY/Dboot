@@ -33,10 +33,8 @@ public abstract class AbstractExcelEventExecutor<T> extends AnalysisEventListene
             if (!checkTableData(data)) {
                 onErrorData(data, context);
                 if (strategy == ExcelExecuteStrategy.ABORT) {
-                    log.error("数据错误，终止操作，data = {}", data);
                     context.interrupt();
                 } else if (strategy == ExcelExecuteStrategy.CONTINUE) {
-                    log.warn("数据错误，跳过操作，data = {}", data);
                     return;
                 } else {
                     throw new RuntimeException("不支持的解析策略");
@@ -49,10 +47,8 @@ public abstract class AbstractExcelEventExecutor<T> extends AnalysisEventListene
             } catch (Exception e) {
                 onFailed(data, context, e);
                 if (strategy == ExcelExecuteStrategy.ABORT) {
-                    log.error("操作失败，终止操作，data = {}", data);
                     context.interrupt();
                 } else if (strategy == ExcelExecuteStrategy.CONTINUE) {
-                    log.warn("操作失败，跳过操作，data = {}", data);
                 } else {
                     throw new RuntimeException("不支持的解析策略");
                 }
