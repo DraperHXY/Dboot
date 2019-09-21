@@ -1,14 +1,13 @@
 package com.draper.dboot.system.entity.beans;
 
 import com.alibaba.excel.annotation.ExcelProperty;
-import com.alibaba.excel.metadata.BaseRowModel;
 import lombok.Data;
 
 /**
  * @author draper_hxy
  */
 @Data
-public class Document extends BaseRowModel {
+public class Document {
 
     @ExcelProperty(index = 0)
     private String id;

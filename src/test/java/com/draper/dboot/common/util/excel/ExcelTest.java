@@ -25,7 +25,7 @@ public class ExcelTest {
         FileInputStream fileInputStream = new FileInputStream(file);
 
         AnalysisEventListener<Document> listener = new MyAbstractExcelDetailEventExecutor(ExcelExecuteStrategy.CONTINUE);
-        new ExcelUtilSubject<Document>().parse(fileInputStream, Document.class, listener);
+        new ExcelUtilSubject<Document>().read(fileInputStream, Document.class, listener);
     }
 
 

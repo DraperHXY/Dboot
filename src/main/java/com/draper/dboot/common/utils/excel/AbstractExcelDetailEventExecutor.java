@@ -4,8 +4,12 @@ import com.alibaba.excel.context.AnalysisContext;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
+ * 注意不要覆写无关的方法，否则可能导致框架失效
+ * 待重构
+ *
  * @author draper_hxy
  */
 public abstract class AbstractExcelDetailEventExecutor<T> extends AbstractExcelEventExecutor<T> {
@@ -17,12 +21,6 @@ public abstract class AbstractExcelDetailEventExecutor<T> extends AbstractExcelE
     public AbstractExcelDetailEventExecutor(ExcelExecuteStrategy strategy) {
         super(strategy);
     }
-
-    @Override
-    protected abstract boolean checkTableTitle(T data);
-
-    @Override
-    protected abstract boolean checkTableData(T data);
 
     @Override
     protected void onErrorData(T data, AnalysisContext context) {
@@ -54,4 +52,6 @@ public abstract class AbstractExcelDetailEventExecutor<T> extends AbstractExcelE
         return exceptionDataList;
     }
 
+    @Override
+    protected abstract boolean checkTableTitle(Map<Integer, String> headMap, AnalysisContext context);
 }

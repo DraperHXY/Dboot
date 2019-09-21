@@ -5,16 +5,19 @@ import com.alibaba.excel.event.AnalysisEventListener;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Map;
+
 /**
  * @author draper_hxy
  */
 @Slf4j
 @Data
-@SuppressWarnings("all")
 public abstract class AbstractExcelEventExecutor<T> extends AnalysisEventListener<T> {
 
 
     private ExcelExecuteStrategy strategy;
+
+    private boolean isInterrupt = false;
 
     public AbstractExcelEventExecutor(ExcelExecuteStrategy strategy) {
         this.strategy = strategy;
@@ -22,36 +25,27 @@ public abstract class AbstractExcelEventExecutor<T> extends AnalysisEventListene
 
     @Override
     public void invoke(T data, AnalysisContext context) {
-        if (context.getCurrentRowNum() == 0) {
-            if (checkTableTitle(data)) {
-                log.debug("Excel 上传中，表头正确");
-            } else {
-                log.error("Excel 表头错误，data = {}", data);
+        if (!checkTableData(data)) {
+            onErrorData(data, context);
+            if (strategy == ExcelExecuteStrategy.ABORT) {
                 context.interrupt();
+            } else if (strategy == ExcelExecuteStrategy.CONTINUE) {
+                return;
+            } else {
+                throw new RuntimeException("不支持的解析策略");
             }
-        } else {
-            if (!checkTableData(data)) {
-                onErrorData(data, context);
-                if (strategy == ExcelExecuteStrategy.ABORT) {
-                    context.interrupt();
-                } else if (strategy == ExcelExecuteStrategy.CONTINUE) {
-                    return;
-                } else {
-                    throw new RuntimeException("不支持的解析策略");
-                }
-            }
+        }
 
-            try {
-                doAction(data, context);
-                // 上传时发生异常
-            } catch (Exception e) {
-                onFailed(data, context, e);
-                if (strategy == ExcelExecuteStrategy.ABORT) {
-                    context.interrupt();
-                } else if (strategy == ExcelExecuteStrategy.CONTINUE) {
-                } else {
-                    throw new RuntimeException("不支持的解析策略");
-                }
+        try {
+            doAction(data, context);
+            // 上传时发生异常
+        } catch (Exception e) {
+            onFailed(data, context, e);
+            if (strategy == ExcelExecuteStrategy.ABORT) {
+                context.interrupt();
+            } else if (strategy == ExcelExecuteStrategy.CONTINUE) {
+            } else {
+                throw new RuntimeException("不支持的解析策略");
             }
         }
     }
@@ -63,10 +57,28 @@ public abstract class AbstractExcelEventExecutor<T> extends AnalysisEventListene
         doAfterAll(context);
     }
 
+    @Override
+    public void invokeHeadMap(Map<Integer, String> headMap, AnalysisContext context) {
+        boolean isSuccess = checkTableTitle(headMap, context);
+        if (!isSuccess) {
+            isInterrupt = true;
+            hasNext(context);
+        }
+    }
+
+    @Override
+    public boolean hasNext(AnalysisContext context) {
+        if (isInterrupt) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     /**
      * 检查表头
      */
-    protected abstract boolean checkTableTitle(T t);
+    protected abstract boolean checkTableTitle(Map<Integer, String> headMap, AnalysisContext context);
 
     /**
      * 检查数据

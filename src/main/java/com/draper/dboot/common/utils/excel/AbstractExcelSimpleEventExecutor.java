@@ -3,6 +3,8 @@ package com.draper.dboot.common.utils.excel;
 import com.alibaba.excel.context.AnalysisContext;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Map;
+
 
 /**
  * @author draper_hxy
@@ -15,7 +17,7 @@ public abstract class AbstractExcelSimpleEventExecutor<T> extends AbstractExcelE
     }
 
     @Override
-    protected boolean checkTableTitle(T data) {
+    protected boolean checkTableTitle(Map<Integer, String> headMap, AnalysisContext context) {
         return true;
     }
 
