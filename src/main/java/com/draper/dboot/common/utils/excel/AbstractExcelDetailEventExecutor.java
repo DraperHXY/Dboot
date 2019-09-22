@@ -34,7 +34,7 @@ public abstract class AbstractExcelDetailEventExecutor<T> extends AbstractExcelE
     protected abstract void doAction(T data, AnalysisContext context) throws Exception;
 
     @Override
-    protected void onFailed(T data, AnalysisContext context, Throwable throwable) {
+    protected void onActionFailed(T data, AnalysisContext context, Throwable throwable) {
         if (exceptionDataList == null) {
             exceptionDataList = new ArrayList<>();
         }
@@ -54,4 +54,7 @@ public abstract class AbstractExcelDetailEventExecutor<T> extends AbstractExcelE
 
     @Override
     protected abstract boolean checkTableTitle(Map<Integer, String> headMap, AnalysisContext context);
+
+    @Override
+    protected abstract boolean checkTableData(T t, AnalysisContext context);
 }

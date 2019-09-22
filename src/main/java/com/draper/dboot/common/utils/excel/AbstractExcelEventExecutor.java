@@ -25,7 +25,7 @@ public abstract class AbstractExcelEventExecutor<T> extends AnalysisEventListene
 
     @Override
     public void invoke(T data, AnalysisContext context) {
-        if (!checkTableData(data)) {
+        if (!checkTableData(data,context)) {
             onErrorData(data, context);
             if (strategy == ExcelExecuteStrategy.ABORT) {
                 context.interrupt();
@@ -40,7 +40,7 @@ public abstract class AbstractExcelEventExecutor<T> extends AnalysisEventListene
             doAction(data, context);
             // 上传时发生异常
         } catch (Exception e) {
-            onFailed(data, context, e);
+            onActionFailed(data, context, e);
             if (strategy == ExcelExecuteStrategy.ABORT) {
                 context.interrupt();
             } else if (strategy == ExcelExecuteStrategy.CONTINUE) {
@@ -83,7 +83,7 @@ public abstract class AbstractExcelEventExecutor<T> extends AnalysisEventListene
     /**
      * 检查数据
      */
-    protected abstract boolean checkTableData(T t);
+    protected abstract boolean checkTableData(T t, AnalysisContext context);
 
     /**
      * 当数据错误，进行处理，
@@ -98,7 +98,7 @@ public abstract class AbstractExcelEventExecutor<T> extends AnalysisEventListene
     /**
      * 当业务发生异常时进行处理
      */
-    protected abstract void onFailed(T data, AnalysisContext context, Throwable throwable);
+    protected abstract void onActionFailed(T data, AnalysisContext context, Throwable throwable);
 
     /**
      * 当所有业务结束后，进行处理

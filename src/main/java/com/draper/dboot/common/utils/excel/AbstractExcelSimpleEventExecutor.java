@@ -22,7 +22,7 @@ public abstract class AbstractExcelSimpleEventExecutor<T> extends AbstractExcelE
     }
 
     @Override
-    protected boolean checkTableData(T data) {
+    protected boolean checkTableData(T t, AnalysisContext context) {
         return true;
     }
 
@@ -34,7 +34,7 @@ public abstract class AbstractExcelSimpleEventExecutor<T> extends AbstractExcelE
     protected abstract void doAction(T data, AnalysisContext context) throws Exception;
 
     @Override
-    protected void onFailed(T data, AnalysisContext context, Throwable throwable) {
+    protected void onActionFailed(T data, AnalysisContext context, Throwable throwable) {
     }
 
     @Override

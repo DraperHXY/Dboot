@@ -7,6 +7,7 @@ import com.draper.dboot.common.utils.excel.AbstractExcelSimpleEventExecutor;
 import com.draper.dboot.common.utils.excel.ExcelExecuteStrategy;
 import com.draper.dboot.common.utils.excel.ExcelUtilSubject;
 import com.draper.dboot.common.utils.excel.MyAbstractExcelDetailEventExecutor;
+import com.draper.dboot.system.entity.DocumentInfo;
 import com.draper.dboot.system.entity.beans.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,17 +28,13 @@ public class TestExcelController {
     @PostMapping("/test/uploadExcel")
     public void testUpload(@RequestParam("file") MultipartFile file, HttpServletResponse response) {
 
-        AnalysisEventListener<Document> listener = new MyAbstractExcelDetailEventExecutor(new GenericListener<List<Document>, HttpServletResponse>() {
-            @Override
-            public HttpServletResponse callback(List<Document> documents) {
-
-                try {
-                    new ExcelUtilSubject<Document>().webWrite(response,Document.class,documents,"失败数据");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return null;
+        AnalysisEventListener<Document> listener = new MyAbstractExcelDetailEventExecutor(documentInfos -> {
+            try {
+                new ExcelUtilSubject<DocumentInfo>().webWrite(response, DocumentInfo.class, documentInfos, "失败数据");
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+            return null;
         });
 
         try {
