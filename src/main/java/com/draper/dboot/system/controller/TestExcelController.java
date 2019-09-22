@@ -28,13 +28,16 @@ public class TestExcelController {
     @PostMapping("/test/uploadExcel")
     public void testUpload(@RequestParam("file") MultipartFile file, HttpServletResponse response) {
 
-        AnalysisEventListener<Document> listener = new MyAbstractExcelDetailEventExecutor(documentInfos -> {
-            try {
-                new ExcelUtilSubject<DocumentInfo>().webWrite(response, DocumentInfo.class, documentInfos, "失败数据");
-            } catch (IOException e) {
-                e.printStackTrace();
+        AnalysisEventListener<Document> listener = new MyAbstractExcelDetailEventExecutor(new GenericListener<List<DocumentInfo>, HttpServletResponse>() {
+            @Override
+            public HttpServletResponse callback(List<DocumentInfo> documentInfos) {
+                try {
+                    new ExcelUtilSubject<DocumentInfo>().webWrite(response, DocumentInfo.class, documentInfos, "失败数据");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
             }
-            return null;
         });
 
         try {

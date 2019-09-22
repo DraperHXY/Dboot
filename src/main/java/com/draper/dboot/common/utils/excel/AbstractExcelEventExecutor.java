@@ -25,7 +25,7 @@ public abstract class AbstractExcelEventExecutor<T> extends AnalysisEventListene
 
     @Override
     public void invoke(T data, AnalysisContext context) {
-        if (!checkTableData(data,context)) {
+        if (!checkTableData(data, context)) {
             onErrorData(data, context);
             if (strategy == ExcelExecuteStrategy.ABORT) {
                 context.interrupt();
@@ -37,6 +37,13 @@ public abstract class AbstractExcelEventExecutor<T> extends AnalysisEventListene
         }
 
         try {
+            if (context.readRowHolder().getRowIndex() >= 3001) {
+                isInterrupt = true;
+                throw new Exception("除表头外不能，仅支持 3000 行导入");
+
+            }
+
+
             doAction(data, context);
             // 上传时发生异常
         } catch (Exception e) {
